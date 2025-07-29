@@ -2,12 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
 
-def index_view(request):
+app_name = 'website'
+
+def index(request):
     return render(request,'website/index.html')
 
+def details(request):
+    return render(request, 'website/details.html')
 
-def abuot_view(request):
-    return render(request, 'website/abuot.html')
+def profile(request):
+    return render(request, 'website/profile.html')
 
-def contact_view(request):
-    return render(request, 'website/contact.html')
+def browse(request):
+    return render(request,'website/browse.html')
+
+def streams(request):
+    return render(request,'website/streams.html')
