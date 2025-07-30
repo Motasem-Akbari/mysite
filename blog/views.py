@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
 
-def blog_home(request):
-    return render(request,'blog/blog-home.html')
+def blog(request):
+    return render(request,'blog/blog.html')
 
-def blog_single(request):
-    return render(request, 'blog/blog-single.html')
+def single_blog(request):
+    return render(request, 'blog/single-blog.html')
