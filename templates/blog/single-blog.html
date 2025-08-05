@@ -12,7 +12,7 @@
          <div class="row">
             <div class="col-xl-12">
                <div class="hero-cap text-center">
-                  <h2>Single Blog</h2>
+                  <h2>{{post.title}}</h2>
                </div>
             </div>
          </div>
@@ -30,19 +30,19 @@
                   <img class="img-fluid" src="{% static 'assets/img/blog/single_blog_1.png' %}" alt="">
                </div>
                <div class="blog_details">
-                  <h2>Second divided from form fish beast made every of seas
-                     all gathered us saying he our
+                  <h2>{{post.title}}
                   </h2>
                   <ul class="blog-info-link mt-3 mb-4">
-                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                     <ul class="blog-info-link">
+                        <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                        <li><a href="#"><i class="fa fa-clock"></i> {{post.published_date}}</a></li>
+                        <li><a href="#"><i class="fa fa-thumbs-up"></i> {{post.counted_like}}</a></li>
+                        <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
                   </ul>
                   <p class="excert">
-                     MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                     should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                     fraction of the camp price. However, who has the willpower
+                     {{post.content}}
                   </p>
-                  <p>
+                  {% comment %} <p>
                      MCSE boot camps have its supporters and its detractors. Some people do not understand why you
                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
                      fraction of the camp price. However, who has the willpower to actually sit through a
@@ -66,12 +66,12 @@
                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
                      fraction of the camp price. However, who has the willpower to actually sit through a
                      self-imposed MCSE training. who has the willpower to actually
-                  </p>
+                  </p> {% endcomment %}
                </div>
             </div>
             <div class="navigation-top">
                <div class="d-sm-flex justify-content-between text-center">
-                  <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
+                  <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and {{post.counted_like}}
                      people like this</p>
                   <div class="col-sm-4 text-center my-2 my-sm-0">
                      <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
