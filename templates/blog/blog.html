@@ -1,5 +1,6 @@
 {% extends 'base-blog.html' %}
 {% load static %}
+{% load blog_tags %}
 
 {% block content %}
 
@@ -28,7 +29,7 @@
           {% for post in posts %}
             <article class="blog_item">
               <div class="blog_item_img">
-                <img class="card-img rounded-0" src="{% static 'assets/img/blog/single_blog_1.png' %}" alt="">
+                <img class="card-img rounded-0" src="{{post.image.url}}" alt="">
                 <a href="#" class="blog_item_date">
                   <h3>15</h3>
                   <p>Jan</p>
@@ -39,136 +40,61 @@
                 <a class="d-inline-block" href="{% url 'blog:single-blog' post.id %}">
                   <h2>{{post.title}}</h2>
                 </a>
-                <p>{{post.content}}</p>
+                <p>{{post.content|truncatewords:17}}</p>
+                <!-- <p>{{post.snippets}}</p> -->
                 <ul class="blog-info-link">
-                  <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                  <li><a href="#"><i class="fa fa-clock"></i> {{post.published_date}}</a></li>
+                  <li><a href="{% url 'blog:author' author_username=post.author.username %}"><i class="fa fa-user"></i>{{post.author.get_full_name}}</a></li>
+                  <li><a href="#"><i class="fa fa-clock"></i> {{post.published_date| date:"d M Y"}}</a></li>
                   <li><a href="#"><i class="fa fa-thumbs-up"></i> {{post.counted_like}}</a></li>
                   <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                  {% for cat in post.category.all %}
+                    <li><a href="{% url 'blog:category' cat_name=cat.name %}"></i>{{cat.name}}</a></li>
+                  {% endfor %}
                 </ul>
               </div>
             </article>
           {% endfor %}
+
           <nav class="blog-pagination justify-content-center d-flex">
             <ul class="pagination">
-              <li class="page-item">
-                <a href="#" class="page-link" aria-label="Previous">
-                  <i class="ti-angle-left"></i>
-                </a>
-              </li>
-              <li class="page-item">
-                <a href="#" class="page-link">1</a>
-              </li>
-              <li class="page-item active">
-                <a href="#" class="page-link">2</a>
-              </li>
-              <li class="page-item">
-                <a href="#" class="page-link" aria-label="Next">
-                  <i class="ti-angle-right"></i>
-                </a>
-              </li>
+              {% if posts.has_previous %}
+                <li class="page-item">
+                  <a href="?page={{posts.previous_page_number}}" class="page-link" aria-label="Previous">
+                    <i class="ti-angle-left"></i>
+                  </a>
+                </li>
+              {% endif %}
+              {% for i in posts.paginator.page_range %}
+              {% if posts.number == i  %}
+                <li class="page-item active"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+              {% else %}
+              <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+              {% endif %}
+              {% endfor %}  
+              {% if posts.has_next %}
+                <li class="page-item">
+                  <a href="?page={{posts.next_page_number}}" class="page-link" aria-label="Next">
+                    <i class="ti-angle-right"></i>
+                  </a>
+                </li>
+              {% endif %}
             </ul>
           </nav>
+
+
         </div>
       </div>
+
       <div class="col-lg-4">
         <div class="blog_right_sidebar">
-          <aside class="single_sidebar_widget search_widget">
-            <form action="#">
-              <div class="form-group">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''"
-                    onblur="this.placeholder = 'Search Keyword'">
-                  <div class="input-group-append">
-                    <button class="btns" type="button"><i class="ti-search"></i></button>
-                  </div>
-                </div>
-              </div>
-              <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Search</button>
-            </form>
-          </aside>
+          
+          {% include "blog/blog-search.html" %}
 
-          <aside class="single_sidebar_widget post_category_widget">
-            <h4 class="widget_title">Category</h4>
-            <ul class="list cat-list">
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Resaurant food</p>
-                  <p>(37)</p>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Travel news</p>
-                  <p>(10)</p>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Modern technology</p>
-                  <p>(03)</p>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Product</p>
-                  <p>(11)</p>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Inspiration</p>
-                  <p>21</p>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="d-flex">
-                  <p>Health Care (21)</p>
-                  <p>09</p>
-                </a>
-              </li>
-            </ul>
-          </aside>
+          {% postcategories %}
+          
+          {% latestposts %}
 
-          <aside class="single_sidebar_widget popular_post_widget">
-            <h3 class="widget_title">Recent Post</h3>
-            <div class="media post_item">
-              <img src="{% static 'assets/img/post/post_1.png' %}" alt="post">
-              <div class="media-body">
-                <a href="single-blog.html">
-                  <h3>From life was you fish...</h3>
-                </a>
-                <p>January 12, 2019</p>
-              </div>
-            </div>
-            <div class="media post_item">
-              <img src="{% static 'assets/img/post/post_2.png' %}" alt="post">
-              <div class="media-body">
-                <a href="single-blog.html">
-                  <h3>The Amazing Hubble</h3>
-                </a>
-                <p>02 Hours ago</p>
-              </div>
-            </div>
-            <div class="media post_item">
-              <img src="{% static 'assets/img/post/post_3.png' %}" alt="post">
-              <div class="media-body">
-                <a href="single-blog.html">
-                  <h3>Astronomy Or Astrology</h3>
-                </a>
-                <p>03 Hours ago</p>
-              </div>
-            </div>
-            <div class="media post_item">
-              <img src="{% static 'assets/img/post/post_4.png' %}" alt="post">
-              <div class="media-body">
-                <a href="single-blog.html">
-                  <h3>Asteroids telescope</h3>
-                </a>
-                <p>01 Hours ago</p>
-              </div>
-            </div>
-          </aside>
+          
           <aside class="single_sidebar_widget tag_cloud_widget">
             <h4 class="widget_title">Tag Clouds</h4>
             <ul class="list">

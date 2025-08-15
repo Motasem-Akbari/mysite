@@ -18,3 +18,4 @@ class Contact(models.Model):
         return self.name
     
     
+    

@@ -1,0 +1,15 @@
+{% load static %}
+
+<aside class="single_sidebar_widget post_category_widget">
+    <h4 class="widget_title">Category</h4>
+    {% for name,count in categories.items %}
+      <ul class="list cat-list">
+        <li>
+          <a href="{% url 'blog:category' cat_name=name %}" class="d-flex">
+            <p>{{name}}</p>
+            <p>({{count}})</p>
+          </a>
+        </li>
+    {% endfor %}
+    </ul>
+  </aside>
