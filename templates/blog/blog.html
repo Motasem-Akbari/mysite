@@ -46,7 +46,7 @@
                   <li><a href="{% url 'blog:author' author_username=post.author.username %}"><i class="fa fa-user"></i>{{post.author.get_full_name}}</a></li>
                   <li><a href="#"><i class="fa fa-clock"></i> {{post.published_date| date:"d M Y"}}</a></li>
                   <li><a href="#"><i class="fa fa-thumbs-up"></i> {{post.counted_like}}</a></li>
-                  <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                  <li><a href="#"><i class="fa fa-comments"></i> {% comments_count post.id %} Comments</a></li>
                   {% for cat in post.category.all %}
                     <li><a href="{% url 'blog:category' cat_name=cat.name %}"></i>{{cat.name}}</a></li>
                   {% endfor %}

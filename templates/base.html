@@ -48,9 +48,13 @@
                         <div class="col-lg-8">
                             <div class="header-info-left">
                                 <ul>                          
-                                    <li>needhelp@gotrip.com</li>
-                                    <li>666 569 025077</li>
-                                    <li>broklyn street new york</li>
+                                    {% if request.user.is_authenticated %}
+                                    <li><a href="#">logged in as {{request.user.username}}</a></li>
+                                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                                    {% else %}
+                                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                                    <li><a href="{% url 'accounts:singup' %}">Singup</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
