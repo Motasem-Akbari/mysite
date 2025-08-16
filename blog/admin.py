@@ -12,7 +12,7 @@ class PostAdmin(SummernoteModelAdmin):
     date_hierarchy = "created_date"
     empty_value_display = "-empty-"
     # fields = ("title",)
-    list_display = ("title", "author", "counted_like", "status",
+    list_display = ("title", "author", "counted_like", "status",'login_require',
                     "published_date", "created_date")
     list_filter = ("status", "author")
     # ordering = ["-created_date"]

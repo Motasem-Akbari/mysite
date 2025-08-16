@@ -175,6 +175,10 @@
                               placeholder="Write Comment"></textarea>
                         </div>
                      </div>
+                     {% if request.user.is_authenticated %} 
+                     <input type="hidden" name= 'name' value="{{request.user.first_name}}">
+                     <input type="hidden" name= 'email' value="{{request.user.email}}">
+                     {% else %} 
                      <div class="col-sm-6">
                         <div class="form-group">
                            <input class="form-control" name="name" id="name" type="text" placeholder="Name">
@@ -185,6 +189,7 @@
                            <input class="form-control" name="email" id="email" type="email" placeholder="Email">
                         </div>
                      </div>
+                     {% endif %}
                      <div class="col-12">
                         <div class="form-group">
                            <input class="form-control" name="subject" id="subject" type="text" placeholder="subject">

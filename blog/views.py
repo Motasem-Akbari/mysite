@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from blog.models import Post,Comment
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from blog.forms import CommentForm
@@ -48,10 +48,13 @@ def single_blog(request,pid):
   
     posts = Post.objects.filter(status=1)
     post = get_object_or_404(posts,pk=pid)
-    comments = Comment.objects.filter(post=post.id,approved=True).order_by("-created_date")
-    form = CommentForm()
-    context = {'post': post, 'comments':comments, 'form':form}
-    return render(request, 'blog/single-blog.html',context)
+    if not post.login_require:
+        comments = Comment.objects.filter(post=post.id,approved=True).order_by("-created_date")
+        form = CommentForm()
+        context = {'post': post, 'comments':comments, 'form':form}
+        return render(request, 'blog/single-blog.html',context)
+    else:
+        return redirect('accounts:login')
 
 def blog_category(request,cat_name):
     posts = Post.objects.filter(status = 1)
